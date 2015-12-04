@@ -1,43 +1,84 @@
 import { List, Map, fromJS } from 'immutable';
 import { expect } from 'chai';
 import reducer from '../scripts/reducers';
+import { SET_STATE } from '../scripts/actions';
 
 describe('reducer', () => {
-	it('handles SET_STATE', () => {
+
+	it('handles SET_STATE with Map()', () => {
 		const initialState = Map();
 		const action = {
-			type:'SET_STATE',
+			type: SET_STATE,
 			state: Map({
-				singlesMatches: Map({
-          K1Zu9S_tAIdhHdnlStU: Map({
-            date : 1445875723581,
-            league : "-K1Oj3Lu4QWU52ffHxCQ",
-            player1 : "github:9828803",
-            player1Rating : 1300,
-            player1pts : 21,
-            player2 : "github:12013667",
-            player2Rating : 1300,
-            player2pts : 16,
-            winMargin : 5
-          })
-        })
+        player1: "Brendon",
+        player2: "Dan",
+        player1Score: 24,
+        player2Score: 22
 			})
 		};
     const nextState = reducer(initialState, action);
-    expect(nextState).to.equal(fromJS({
-      singlesMatches: {
-        K1Zu9S_tAIdhHdnlStU: {
-          date: 1445875723581,
-          league: "-K1Oj3Lu4QWU52ffHxCQ",
-          player1: "github:9828803",
-          player1Rating: 1300,
-          player1pts: 21,
-          player2: "github:12013667",
-          player2Rating: 1300,
-          player2pts: 16,
-          winMargin: 5
+    expect(nextState).to.equal(fromJS(
+        {
+          player1: "Brendon",
+          player2: "Dan",
+          player1Score: 24,
+          player2Score: 22
         }
-      }
-    }))
+    ))
 	});
+
+  it('handles SET_STATE with List()', () => {
+    const initialState = List();
+    const action = {
+      type: SET_STATE,
+      state: List.of("brendon", "dan")
+    }
+    const nextState = reducer(initialState, action);
+    expect(nextState).to.equal(fromJS(["brendon", "dan"]));
+  });
+
+  it('handles SET_STATE with Map() of List()', () => {
+    const initialState = Map();
+    const action = {
+      type: SET_STATE,
+      state: Map({
+        users: List.of("brendon", "dan", "tom"),
+        matches: List.of(
+          Map({
+            player1: "Brendon",
+            player2: "Dan",
+            player1Score: 24,
+            player2Score: 22
+          }),
+          Map({
+            player1: "tom",
+            player2: "Dan",
+            player1Score: 10,
+            player2Score: 21
+          })
+        ),
+        currentUser: "Brendon"
+      })
+    };
+    const nextState = reducer(initialState, action);
+    expect(nextState).to.equal(fromJS({
+      users: ["brendon", "dan", "tom"],
+      matches: [
+        {
+          player1: "Brendon",
+          player2: "Dan",
+          player1Score: 24,
+          player2Score: 22
+        },
+        {
+          player1: "tom",
+          player2: "Dan",
+          player1Score: 10,
+          player2Score: 21
+        }
+      ],
+      currentUser: "Brendon"
+    }));
+  });
+
 });
