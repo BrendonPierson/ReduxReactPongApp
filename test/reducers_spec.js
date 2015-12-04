@@ -9,7 +9,7 @@ describe('reducer', () => {
 			type:'SET_STATE',
 			state: Map({
 				singlesMatches: Map({
-          -K1Zu9S_tAIdhHdnlStU: Map({
+          K1Zu9S_tAIdhHdnlStU: Map({
             date : 1445875723581,
             league : "-K1Oj3Lu4QWU52ffHxCQ",
             player1 : "github:9828803",
@@ -19,14 +19,14 @@ describe('reducer', () => {
             player2Rating : 1300,
             player2pts : 16,
             winMargin : 5
-          });
-        });
-			});
+          })
+        })
+			})
 		};
     const nextState = reducer(initialState, action);
     expect(nextState).to.equal(fromJS({
       singlesMatches: {
-        -K1Zu9S_tAIdhHdnlStU: {
+        K1Zu9S_tAIdhHdnlStU: {
           date: 1445875723581,
           league: "-K1Oj3Lu4QWU52ffHxCQ",
           player1: "github:9828803",
